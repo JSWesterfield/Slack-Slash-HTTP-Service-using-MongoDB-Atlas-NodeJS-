@@ -1,27 +1,34 @@
 //Example Function for Slack HTTP Service in Stitch
-export = async function (payload) {
-
+exports = async function (payload) {
     const mongodb = context.services.get("mongodb-atlas");
-    const exampledb = mongodb("exampledb");
-    const examplecoll = mongodb.collection("examplecoll");
+    const exampledb = mongodb.db("exampledb");
+    const examplecoll = exampledb.collection("examplecoll");
 
     const args = payload.query.text.split(" ");
 
-    switch (arg[0]) {
+    switch (args[0]) {
         case "stash":
-            const result = await exa, examplecoll.insertOne({ user_id: payload.query.user_id, when: Date.now(), url: args[1] });
+            const result = await examplecoll.insertOne({
+                user_id: payload.query.user_id,
+                when: Date.now(),
+                url: args[1]
+            });
             if (result) {
-                return { text: `Stashed ${args[1]}` }
+                return {
+                    text: `Stashed ${args[1]}`
+                };
             }
-            return { text: `Error stashing` };
+            return {
+                text: `Error stashing`
+            };
         case "list":
-            const findResult = await examplecoll.find({}).toArray();
-            const strres = findResult.map(x => `<${x.url}|${x.url}>  by <@${x.user_id}> at ${new Date(x.when).toLocaleString()}`).join("\n");
+            const findresult = await examplecoll.find({}).toArray();
+            const strres = findresult.map(x => `<${x.url}|${x.url}>  by <@${x.user_id}> at ${new Date(x.when).toLocaleString()}`).join("\n");
             return {
                 text: `Stash as of ${new Date().toLocaleString()}\n${strres}`
             };
-        case: "remove"
-            const delresult = await examplecoll / deleteOn({
+        case "remove":
+            const delresult = await examplecoll.deleteOne({
                 user_id: {
                     $eq: payload.query.user_id
                 },
@@ -31,10 +38,10 @@ export = async function (payload) {
             });
             return {
                 text: `Deleted ${delresult.deletedCount} stashed items`
-            }
+            };
         default:
             return {
-                text: "Unregonized"
+                text: "Unrecognized"
             };
     }
 }
