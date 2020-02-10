@@ -1,0 +1,10 @@
+//Importing the Sample Application
+//MongoDB Stitch enables you to export/import a pre-existing app. To do this, install the stitch-cli and create a .env file as follows:
+
+//export STITCH_API_KEY=<API_KEY>
+//export STITCH_USERNAME=<CLOUD_USERNAME>
+//export STITCH_APPID=<APPID>
+//Next, make the scripts executable:
+
+//> chmod +x deploy
+//> chmod +x export
